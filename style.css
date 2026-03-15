@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+.fade-in { animation: fadeIn 0.8s ease-in-out; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hover-scale { transition: transform 0.3s ease; }
+.hover-scale:hover { transform: scale(1.02); }
+
+.btn-download { transition: all 0.3s ease; }
+.btn-download:hover { transform: translateY(-3px); }
+
+/* Pulse Animation for Timer Button */
+@keyframes pulse-btn {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+.animate-pulse-fast { animation: pulse-btn 1.5s infinite; }
+
+/* WhatsApp Floating Button */
+.wa-float {
+    position: fixed; right: 20px; bottom: 30px; z-index: 9999;
+    width: 60px; height: 60px; border-radius: 50%;
+    background: #25D366; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    animation: waFloat 3s ease-in-out infinite; transition: transform 0.3s ease;
+}
+.wa-float:hover { transform: scale(1.1); }
+.wa-svg { color: #fff; }
+
+@keyframes waFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /download
+Disallow: /download.html
+
+Sitemap: https://freefireproxyserver.pages.dev/sitemap.xml
