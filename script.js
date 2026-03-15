@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
     
     // ১. Mobile Menu Toggle Logic
     const btn = document.getElementById('mobile-menu-btn');
@@ -28,25 +28,5 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-
-    // ৩. Global Anti-Adblock System (পুরো সাইটের জন্য)
-    const fakeAd = document.createElement('div');
-    fakeAd.className = 'adsbox ad-placement doubleclick ad-banner';
-    fakeAd.style.display = 'block';
-    fakeAd.style.position = 'absolute';
-    fakeAd.style.top = '-9999px';
-    fakeAd.style.left = '-9999px';
-    document.body.appendChild(fakeAd);
-
-    setTimeout(function() {
-        const modal = document.getElementById('anti-adblock-modal');
-        if (modal) { // পেজে যদি Anti-Adblock Modal থাকে, তবেই কাজ করবে
-            if (fakeAd.offsetHeight === 0 || window.getComputedStyle(fakeAd).display === 'none') {
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // স্ক্রলিং বন্ধ করে দেবে
-            }
-        }
-        fakeAd.remove(); 
-    }, 600);
 
 });

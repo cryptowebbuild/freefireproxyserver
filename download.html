@@ -42,12 +42,12 @@
                 <div id="timer-container" class="flex flex-col items-center justify-center">
                     <div class="w-24 h-24 rounded-full border-4 border-gray-200 flex items-center justify-center mb-4 relative">
                         <div class="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
-                        <span id="countdown-text" class="text-4xl font-black text-dark">5</span>
+                        <span id="countdown-text" class="text-4xl font-black text-dark">15</span>
                     </div>
                 </div>
 
                 <div id="download-container" class="hidden mt-6">
-                    <a href="#" onclick="handleFinalDownload(event)" class="inline-flex items-center gap-2 bg-primary text-dark font-bold text-xl py-4 px-10 rounded-full shadow-lg hover:bg-yellow-500 hover:scale-105 transition animate-pulse-fast">
+                    <a id="final-download-btn" href="https://www.effectivegatecpm.com/xstape5p?key=35b0bf3dd9294182bd1f4605b41a646b" target="_blank" onclick="handleFinalDownload(event)" class="inline-flex items-center gap-2 bg-primary text-dark font-bold text-xl py-4 px-10 rounded-full shadow-lg hover:bg-yellow-500 hover:scale-105 transition animate-pulse-fast">
                         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         Get APK Now
                     </a>
@@ -76,32 +76,61 @@
     <script src="script.js"></script>
     
     <script>
-        let timeLeft = 5;
+        let timeLeft = 15;
+        // ব্রাউজার চেক করবে ইউজার আগে ক্লিক করেছে কি না বা টাইমার শেষ হয়েছে কি না
+        let clickCount = parseInt(sessionStorage.getItem('dl_clickCount')) || 0;
+        let timerDone = sessionStorage.getItem('dl_timerDone') === 'true';
+
         const countdownElement = document.getElementById('countdown-text');
         const timerContainer = document.getElementById('timer-container');
         const downloadContainer = document.getElementById('download-container');
+        const btn = document.getElementById('final-download-btn');
 
-        const timer = setInterval(() => {
-            timeLeft--;
-            countdownElement.innerText = timeLeft;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                timerContainer.classList.add('hidden');
-                downloadContainer.classList.remove('hidden');
+        // বাটনের ডিজাইন ও লিংক চেঞ্জ করার ফাংশন
+        function updateButton() {
+            if (clickCount === 1) {
+                btn.href = "https://www.effectivegatecpm.com/y77pwq36y?key=7e5a816e31a8f9567f6a095cd268f0fd"; 
+                btn.innerHTML = `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Verify Link (Step 1)`;
+            } 
+            else if (clickCount >= 2) {
+                btn.href = "https://www.mediafire.com/file/gmgnvaoi677p851/Astute+Beta+New.apk/file?dkey=3cwxqp3lu9j&r=1946#"; 
+                btn.removeAttribute("target"); // নতুন ট্যাবে না গিয়ে সরাসরি এই ট্যাবেই ডাউনলোড হবে
+                btn.innerHTML = `<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg> Final Download Now`;
+                // ফাইনাল বাটনের কালার সবুজ করে দিলাম
+                btn.classList.remove('bg-primary', 'text-dark');
+                btn.classList.add('bg-green-500', 'text-white');
             }
-        }, 1000);
+        }
 
-        // ✅ Button Click Event (This was missing in your code!)
+        // লুপ ফিক্স: আগে টাইমার শেষ হলে আর টাইমার দেখাবে না
+        if (timerDone) {
+            timerContainer.classList.add('hidden');
+            downloadContainer.classList.remove('hidden');
+            updateButton();
+        } else {
+            const timer = setInterval(() => {
+                timeLeft--;
+                countdownElement.innerText = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    timerContainer.classList.add('hidden');
+                    downloadContainer.classList.remove('hidden');
+                    sessionStorage.setItem('dl_timerDone', 'true'); 
+                }
+            }, 1000);
+        }
+
+        // ইউজার বাটনে ক্লিক করলে এই ফাংশনটি রান হবে
         function handleFinalDownload(event) {
-            event.preventDefault();
-            
-            // 1. Opens Direct Link to Earn Maximum Money
-            window.open("https://www.effectivegatecpm.com/xstape5p?key=35b0bf3dd9294182bd1f4605b41a646b", '_blank');
-            
-            // 2. Redirects current tab to the actual Mediafire Download link
-            setTimeout(() => {
-                window.location.href = "https://www.mediafire.com/file/gmgnvaoi677p851/Astute+Beta+New.apk/file?dkey=3cwxqp3lu9j&r=1946#";
-            }, 300);
+            if (clickCount < 2) {
+                clickCount++;
+                sessionStorage.setItem('dl_clickCount', clickCount); 
+                
+                // ইউজার ক্লিক করে নতুন ট্যাবে যাওয়ার পর, আধা সেকেন্ড পর মেইন পেজের বাটনটা চেঞ্জ হয়ে যাবে
+                setTimeout(() => { 
+                    updateButton(); 
+                }, 500);
+            }
         }
     </script>
 
